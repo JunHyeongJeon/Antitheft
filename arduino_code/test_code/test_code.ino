@@ -75,11 +75,11 @@ void Detecting_Mode(){
 void Standby_Mode()
 {
   // if status is standby white led is on
-  BTSerial.println("STAND_BY");
+  // BTSerial.println("STAND_BY");
   digitalWrite(led_white,HIGH);
-  delay(100);
+  // delay(100);
   digitalWrite(led_red,LOW);
-  delay(100);  
+  // delay(100);  
 }
 
 bool isButtonClick(){
