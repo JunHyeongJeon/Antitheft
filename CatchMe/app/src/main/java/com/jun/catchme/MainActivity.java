@@ -7,11 +7,8 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Window;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.bluetooth.BluetoothDevice;
@@ -48,16 +45,14 @@ public class MainActivity extends AppCompatActivity {
     private static final int REQUEST_ENABLE_BT = 2;
 
     // Layout Views
-    private TextView mTitle;
-    private ListView mConversationView;
     private EditText mOutEditText;
     private Button mSendButton;
     private TextView mConnectStutus;
-
+    private TextView mStatus;
     // Name of the connected device
     private String mConnectedDeviceName = null;
     // Array adapter for the conversation thread
-    private ArrayAdapter<String> mConversationArrayAdapter;
+//    private ArrayAdapter<String> mConversationArrayAdapter;
     // String buffer for outgoing messages
     private StringBuffer mOutStringBuffer;
     // Local Bluetooth adapter
@@ -84,6 +79,7 @@ public class MainActivity extends AppCompatActivity {
         }
         setContentView(R.layout.activity_main);
         mConnectStutus = (TextView) findViewById(R.id.connect_status);
+        mStatus = (TextView) findViewById(R.id.status);
 
     }
     @TargetApi(5)
@@ -125,12 +121,12 @@ public class MainActivity extends AppCompatActivity {
         Log.d(TAG, "setupChat()");
 
         // Initialize the array adapter for the conversation thread
-        mConversationArrayAdapter = new ArrayAdapter<String>(this, R.layout.message);
-        mConversationView = (ListView) findViewById(R.id.in);
-        mConversationView.setAdapter(mConversationArrayAdapter);
+//        mConversationArrayAdapter = new ArrayAdapter<String>(this, R.layout.message);
+//        mConversationView = (ListView) findViewById(R.id.in);
+//        mConversationView.setAdapter(mConversationArrayAdapter);
 
         // Initialize the compose field with a listener for the return key
-        mOutEditText = (EditText) findViewById(R.id.edit_text_out);
+//        mOutEditText = (EditText) findViewById(R.id.edit_text_out);
         //      mOutEditText.setOnEditorActionListener(mWriteListener);
 
         // Initialize the send button with a listener that for click events
@@ -138,9 +134,9 @@ public class MainActivity extends AppCompatActivity {
         mSendButton.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
                 // Send a message using content of the edit text widget
-                TextView view = (TextView) findViewById(R.id.edit_text_out);
-                String message = view.getText().toString();
-                sendMessage(message);
+//                TextView view = (TextView) findViewById(R.id.edit_text_out);
+//                String message = view.getText().toString();
+                sendMessage("B");
             }
         });
 
@@ -201,8 +197,8 @@ public class MainActivity extends AppCompatActivity {
             mChatService.write(send);
 
             // Reset out string buffer to zero and clear the edit text field
-            mOutStringBuffer.setLength(0);
-            mOutEditText.setText(mOutStringBuffer);
+//            mOutStringBuffer.setLength(0);
+//            mOutEditText.setText(mOutStringBuffer);
         }
     }
 
@@ -246,7 +242,27 @@ public class MainActivity extends AppCompatActivity {
                 case MESSAGE_READ:
                     byte[] readBuf = (byte[]) msg.obj;
                     String readMessage = new String(readBuf, 0, msg.arg1);
+                    if("S".equals(readMessage)){
+                        mSendButton.setText("ON");
+                        mStatus.setTextColor(getResources().getColor(R.color.white));
+                        mStatus.setText("Stand by");
+                        Log.v(TAG, "s");
+                    }
+                    else if ("A".equals(readMessage)){
+                        mSendButton.setText("OFF");
+                        mStatus.setTextColor(getResources().getColor(R.color.white));
+                        mStatus.setText("Monitoring");
+                        Log.v(TAG, "a");
 
+                    }
+                    else if ("T".equals(readMessage)){
+                        mSendButton.setText("OFF");
+                        mStatus.setTextColor(getResources().getColor(R.color.colorAccent));
+                        mStatus.setText("Warning");
+                        Log.v(TAG, "t");
+
+
+                    }
                     break;
                 case MESSAGE_DEVICE_NAME:
                     // save the connected device's name

@@ -50,6 +50,7 @@ void loop(){
 
 void Detecting_Mode(){
   while(1)  {
+    BTSerial.print('A');
     // if status is standby red led is on
     digitalWrite(led_red,HIGH);
     digitalWrite(led_white,LOW);
@@ -60,13 +61,22 @@ void Detecting_Mode(){
  
     delay(100);
     
-    Serial.print("w:");
-    Serial.print(val_w);
-    Serial.print("x:");
-    Serial.print(val_x);
-    Serial.print("y:");
-    Serial.println(val_y);
-    
+//    Serial.print("w:");
+//    Serial.print(val_w);
+//    Serial.print("x:");
+//    Serial.print(val_x);
+//    Serial.print("y:");
+//    Serial.println(val_y);
+    if( isTilt ( val_x, val_y ) ){
+        BTSerial.println('T');
+        Serial.println('T');
+      
+      }
+    else{ 
+        BTSerial.println('A');
+        Serial.println('A');
+      
+    }
     if(  BTSerial.read() == 'B')
       break; // 블루투스로 'B'문자 받을 경우 루프 탈출
   }
@@ -75,11 +85,10 @@ void Detecting_Mode(){
 void Standby_Mode()
 {
   // if status is standby white led is on
-  // BTSerial.println("STAND_BY");
+  BTSerial.print("S");
   digitalWrite(led_white,HIGH);
-  // delay(100);
   digitalWrite(led_red,LOW);
-  // delay(100);  
+  delay(100);  
 }
 
 bool isButtonClick(){
@@ -87,7 +96,7 @@ bool isButtonClick(){
 }
 
 bool isAndroidButtonClick(){
-  if ( BTSerial.read() == 'S' )
+  if ( BTSerial.read() == 'B' )
     return true;
   else 
     return false;
@@ -100,4 +109,13 @@ bool isActive(){
   else 
     return false;
 }
+
+bool isTilt(int x, int y){
+  if ((x > 350 || x < 310) ||(y > 350 || y < 310))
+    return true;
+    
+  else 
+    return false;
+}
+
 
