@@ -87,12 +87,6 @@ void Detecting_Mode(){
     
     delay(40);
     
-//    Serial.print("w:");
-//    Serial.print(val_w);
-//    Serial.print("x:");
-//    Serial.print(val_x);
-//    Serial.print("y:");
-//    Serial.println(val_y);
     if( isTilt ( val_x, val_y ) ){
         BTSerial.println('T');
         Serial.println('T');
