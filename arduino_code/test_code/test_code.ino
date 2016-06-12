@@ -55,7 +55,7 @@ void Detecting_Mode(){
   long duration, sona_cm;
 
   while(1)  {
-    BTSerial.print('A');
+//    BTSerial.print('A');
     // if status is standby red led is on
     digitalWrite(led_red,HIGH);
     digitalWrite(led_white,LOW);
@@ -136,7 +136,7 @@ bool isActive(){
 }
 
 bool isTilt(int x, int y){
-  if ((x > 350 || x < 310) ||(y > 350 || y < 310))
+  if ((x > 390 || x < 310) ||(y > 390 || y < 310))
     return true;
     
   else 
@@ -144,7 +144,8 @@ bool isTilt(int x, int y){
 }
 
 bool isMoved(int val){
-  if (val > 20)
+  Serial.println(val);
+  if (val > 10)
     return true;
   else
     return false;

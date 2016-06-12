@@ -246,20 +246,20 @@ public class MainActivity extends AppCompatActivity {
                         mSendButton.setText("ON");
                         mStatus.setTextColor(getResources().getColor(R.color.white));
                         mStatus.setText("Stand by");
-//                        Log.v(TAG, "s");
+                        Log.v(TAG, "s");
                     }
                     else if ("A".equals(readMessage)){
                         mSendButton.setText("OFF");
                         mStatus.setTextColor(getResources().getColor(R.color.white));
                         mStatus.setText("Monitoring");
-//                        Log.v(TAG, "a");
+                        Log.v(TAG, "a");
 
                     }
                     else if ("T".equals(readMessage)){
                         mSendButton.setText("OFF");
                         mStatus.setTextColor(getResources().getColor(R.color.colorAccent));
                         mStatus.setText("Warning");
-//                        Log.v(TAG, "t");
+                        Log.v(TAG, "t");
 
 
                     }
